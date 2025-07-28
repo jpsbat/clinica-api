@@ -45,9 +45,29 @@ A API usa autenticação por token Bearer. Primeiro você precisa fazer login pa
 }
 ```
 
+### Resposta para Acesso Não Autorizado
+
+Quando um usuário tentar acessar qualquer rota protegida sem fornecer um token válido, a API retornará:
+
+```json
+{
+    "message": "Token de acesso não fornecido ou inválido.",
+    "error": "Unauthenticated",
+    "status": 401,
+    "success": false
+}
+```
+
+**Status HTTP:** 401 Unauthorized
+
+### Endpoints de Teste
+
+**GET** `/api/test-public` - Rota pública (não requer autenticação)
+**GET** `/api/test-protected` - Rota protegida (requer token)
+
 ### Usar Token nas Requisições
 
-Para todas as outras rotas, inclua o token no header:
+Para todas as rotas protegidas, inclua o token no header:
 
 ```
 Authorization: Bearer 1|abcdef123456...

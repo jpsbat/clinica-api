@@ -14,12 +14,29 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [ApiAuthController::class, 'login']);
 Route::post('/register', [ApiAuthController::class, 'register']);
 
+// Rota de teste (não protegida)
+Route::get('/test-public', function () {
+    return response()->json([
+        'message' => 'Esta é uma rota pública',
+        'status' => 200
+    ]);
+});
+
 // Rotas protegidas por autenticação
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth.api:sanctum')->group(function () {
     // Rota de logout
     Route::post('/logout', [ApiAuthController::class, 'logout']);
     Route::post('/logout-all', [ApiAuthController::class, 'logoutAll']);
     Route::get('/me', [ApiAuthController::class, 'me']);
+
+    // Rota de teste (protegida)
+    Route::get('/test-protected', function () {
+        return response()->json([
+            'message' => 'Esta é uma rota protegida',
+            'user' => auth()->user(),
+            'status' => 200
+        ]);
+    });
 
     // Rota de exemplo (usuários)
     Route::get('/users', function (Request $request) {
